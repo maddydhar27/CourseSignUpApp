@@ -1,0 +1,7 @@
+{
+    "IsEncrypted": false,
+    "Values": {
+        "AzureWebJobsStorage": "DefaultEndpointsProtocol=https;AccountName=storagecourseenrollment;AccountKey=pcI1gV3PcCMa9qA6bByUqj3Zacmbp+qrV95DfS4V3nM1+uPNRNYVa5zpN9l5089rtiFBTrmJ3d0BpldiinG2TQ==;EndpointSuffix=core.windows.net",
+        "Storage": "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=rndDB;Integrated Security=True"
+    }
+}
