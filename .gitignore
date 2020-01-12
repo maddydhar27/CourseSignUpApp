@@ -3,3 +3,12 @@
 ################################################################################
 
 /TriggerStudentEnrollment/obj
+/TriggerStudentEnrollment/bin/Debug/netcoreapp2.1
+/CourseEnrollmentLib/obj
+/CourseEnrollmentLib/bin/Debug/netcoreapp2.1
+/CourseEnrollmentAPI/obj
+/CourseEnrollmentAPI/bin/Debug/netcoreapp2.1
+/AzureQueueLibrary/obj
+/AzureQueueLibrary/bin/Debug/netcoreapp2.1
+/.vs/CourseEnrollment/v15
+/.vs/CourseEnrollment/DesignTimeBuild
