@@ -9,7 +9,7 @@ namespace CourseEnrollmentLib
 {
     public class EnrollmentDetails : IEnrollmentDetails<CourseOverallSummary,SpecificCourseDetails>
     {
-        private CourseEnrollmentDBContext _dbContext;
+        private readonly CourseEnrollmentDBContext _dbContext;
         public EnrollmentDetails(CourseEnrollmentDBContext dbContext)
         {
             _dbContext = dbContext;
