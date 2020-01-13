@@ -12,7 +12,7 @@ namespace CourseEnrollmentLib
         /// </summary>
         /// <param name="s"></param>
         /// <returns></returns>
-        Task<bool> EnrollStudentToCourse(S s);
+        Task<bool> EnrollStudentToCourse(CourseEnrollmentDBContext dBContext,S s);
       
     }
 }

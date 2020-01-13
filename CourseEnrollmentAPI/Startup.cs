@@ -31,14 +31,17 @@ namespace CourseEnrollmentAPI
             // Injected class ConfigurationReader to IConfigurationReader        
             string connString = Configuration.GetSection("MySettings").GetSection("Storage").Value;
 
-            var options = new DbContextOptionsBuilder<CourseEnrollmentDBContext>()
-                       .UseSqlServer(connString)
-                       .Options;
+            //var options = new DbContextOptionsBuilder<CourseEnrollmentDBContext>()
+            //           .UseSqlServer(connString)
+            //           .Options;
 
-            CourseEnrollmentDBContext dbContext = new CourseEnrollmentDBContext(options);
-            services.AddSingleton(_ => new EnrollmentDetails(dbContext) as IEnrollmentDetails<CourseOverallSummary,SpecificCourseDetails>);
+            //CourseEnrollmentDBContext dbContext = new CourseEnrollmentDBContext(options);
 
-            services.AddSingleton(_ => new EnrollStudent(dbContext) as IEnrollStudent<Student>);
+            services.AddDbContext<CourseEnrollmentDBContext>((options => options.UseSqlServer(connString)),ServiceLifetime.Transient);
+
+            services.AddSingleton(_ => new EnrollmentDetails() as IEnrollmentDetails<CourseOverallSummary,SpecificCourseDetails>);
+
+            services.AddSingleton(_ => new EnrollStudent() as IEnrollStudent<Student>);
 
             services.AddAzureQueueLibrary(Configuration.GetSection("MySettings").GetSection("AzureWebJobsStorage").Value);
 

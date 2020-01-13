@@ -9,26 +9,21 @@ namespace CourseEnrollmentLib
 {
     public class EnrollmentDetails : IEnrollmentDetails<CourseOverallSummary,SpecificCourseDetails>
     {
-        private readonly CourseEnrollmentDBContext _dbContext;
-        public EnrollmentDetails(CourseEnrollmentDBContext dbContext)
-        {
-            _dbContext = dbContext;
-        }
 
         /// <summary>
         /// Get summary of all available courses 
         /// </summary>
         /// <returns></returns>
-        public async Task<List<CourseOverallSummary>> GetCourseOverallSummary()
+        public async Task<List<CourseOverallSummary>> GetCourseOverallSummary(CourseEnrollmentDBContext dBContext)
         {
             try
             {
-                if(_dbContext.Course==null || _dbContext.Student == null)
+                if(dBContext.Course==null || dBContext.Student == null)
                 {
                     return null;
                 }
 
-                var courseSummaryList = await (from student in _dbContext.Student
+                var courseSummaryList = await (from student in dBContext.Student
                                                where student.CourseId != null
                                                group student by student.CourseId into g //Pull out the unique indexes
                                                let f = g.FirstOrDefault()
@@ -43,7 +38,7 @@ namespace CourseEnrollmentLib
                                                }).ToListAsync();
 
                List<CourseOverallSummary> courseOverallsummary = new List<CourseOverallSummary>();
-                foreach (var course in _dbContext.Course)
+                foreach (var course in dBContext.Course)
                 {
                     courseOverallsummary.Add(new CourseOverallSummary
                     {
@@ -78,16 +73,16 @@ namespace CourseEnrollmentLib
         /// </summary>
         /// <param name="courseId"></param>
         /// <returns></returns>
-        public async Task<SpecificCourseDetails> GetSpecificCourseDetails(int courseId)
+        public async Task<SpecificCourseDetails> GetSpecificCourseDetails(CourseEnrollmentDBContext dBContext,int courseId)
         {
             try
             {
-                if (_dbContext.Course == null || _dbContext.Student == null)
+                if (dBContext.Course == null || dBContext.Student == null)
                 {
                     return null;
                 }
 
-                var ageSummaryData = await (from student in _dbContext.Student
+                var ageSummaryData = await (from student in dBContext.Student
                                             where student.CourseId != null && student.CourseId == courseId
                                             group student by student.CourseId into g //Pull out the unique indexes
                                             let f = g.FirstOrDefault()
@@ -95,12 +90,12 @@ namespace CourseEnrollmentLib
                                             select new SpecificCourseDetails
                                             {
                                                 CourseId = f.CourseId,
-                                                CourseName = _dbContext.Course.Where(c => c.CourseId == f.CourseId).Select(c => c.CourseName).FirstOrDefault(),
+                                                CourseName = dBContext.Course.Where(c => c.CourseId == f.CourseId).Select(c => c.CourseName).FirstOrDefault(),
                                                 MinAge = g.Min(c => c.Age),
                                                 MaxAge = g.Max(c => c.Age),
                                                 AvgAge = g.Average(c => c.Age),
-                                                TeacherName = _dbContext.Course.Where(c => c.CourseId == f.CourseId).Select(c => c.LecturerName).FirstOrDefault(),
-                                                RegisteredStudents = _dbContext.Student.Where(c => c.CourseId == f.CourseId).ToList()
+                                                TeacherName = dBContext.Course.Where(c => c.CourseId == f.CourseId).Select(c => c.LecturerName).FirstOrDefault(),
+                                                RegisteredStudents = dBContext.Student.Where(c => c.CourseId == f.CourseId).ToList()
                                             }).FirstOrDefaultAsync();
 
 
@@ -110,7 +105,7 @@ namespace CourseEnrollmentLib
                 }
                 else
                 {
-                    var CourseDetails = await _dbContext.Course.Where(c => c.CourseId == courseId).Select(x => new SpecificCourseDetails
+                    var CourseDetails = await dBContext.Course.Where(c => c.CourseId == courseId).Select(x => new SpecificCourseDetails
                     {
                         CourseId =x.CourseId,
                         CourseName = x.CourseName,

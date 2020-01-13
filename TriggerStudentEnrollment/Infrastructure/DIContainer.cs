@@ -36,13 +36,13 @@ namespace AzureFunctions.Infrastructure
 
             string connString = configuration["Storage"];
 
-            var options = new DbContextOptionsBuilder<CourseEnrollmentDBContext>()
-                       .UseSqlServer(connString)
-                       .Options;
+            //var options = new DbContextOptionsBuilder<CourseEnrollmentDBContext>()
+            //           .UseSqlServer(connString)
+            //           .Options;
 
-            CourseEnrollmentDBContext dbContext = new CourseEnrollmentDBContext(options);
-
-            services.AddSingleton(_ => new EnrollStudent(dbContext) as IEnrollStudent<Student>);
+            //CourseEnrollmentDBContext dbContext = new CourseEnrollmentDBContext(options);
+            services.AddDbContext<CourseEnrollmentDBContext>((options => options.UseSqlServer(connString)), ServiceLifetime.Transient);
+            services.AddSingleton(_ => new EnrollStudent() as IEnrollStudent<Student>);
             services.AddSingleton<IStudentEnrollmentHandler, StudentEnrollmentHandler>();
             services.AddAzureQueueLibrary(configuration["AzureWebJobsStorage"]);
 			return services.BuildServiceProvider();

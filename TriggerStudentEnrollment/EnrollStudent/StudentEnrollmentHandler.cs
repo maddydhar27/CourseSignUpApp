@@ -12,10 +12,11 @@ namespace TriggerStudentEnrollment.EnrollStudent
     {
 
         private readonly IEnrollStudent<Student> _enrollStudent;
-
-        public StudentEnrollmentHandler(IEnrollStudent<Student> enrollStudent)
+        private readonly CourseEnrollmentDBContext _dBContext;
+        public StudentEnrollmentHandler(IEnrollStudent<Student> enrollStudent, CourseEnrollmentDBContext dBContext)
         {
             _enrollStudent = enrollStudent;
+            _dBContext = dBContext;
         }
 
         /// <summary>
@@ -28,7 +29,7 @@ namespace TriggerStudentEnrollment.EnrollStudent
 
             if(details!=null && !string.IsNullOrEmpty(details.Name) && !string.IsNullOrEmpty(details.Email) && details.DOB!=null && details.CourseId >0)
             {
-                var result = await _enrollStudent.EnrollStudentToCourse(new Student
+                var result = await _enrollStudent.EnrollStudentToCourse(_dBContext,new Student
                 {
                     Name =details.Name,
                     Email=details.Email,
