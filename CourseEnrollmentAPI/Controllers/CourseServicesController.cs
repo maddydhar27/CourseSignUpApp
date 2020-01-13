@@ -16,13 +16,12 @@ namespace CourseEnrollmentAPI.Controllers
     {
         private readonly IEnrollmentDetails<CourseOverallSummary,SpecificCourseDetails> _enrollmentDetails;
         private readonly IQueueCommunicator _queueCommunicator;
-        private readonly CourseEnrollmentDBContext _dBContext;
 
-        public CourseServicesController(IEnrollmentDetails<CourseOverallSummary, SpecificCourseDetails> enrollmentDetails, CourseEnrollmentDBContext dBContext, IQueueCommunicator queueCommunicator)
+      
+        public CourseServicesController(IEnrollmentDetails<CourseOverallSummary, SpecificCourseDetails> enrollmentDetails, IQueueCommunicator queueCommunicator)
         {
             _queueCommunicator = queueCommunicator;
             _enrollmentDetails = enrollmentDetails;
-            _dBContext = dBContext;
         }
 
         /// <summary>
@@ -67,7 +66,7 @@ namespace CourseEnrollmentAPI.Controllers
         {
             try
             {
-                var result = await _enrollmentDetails.GetCourseOverallSummary(_dBContext);
+                var result = await _enrollmentDetails.GetCourseOverallSummary();
                 if (result != null)
                     return StatusCode(StatusCodes.Status200OK, result);
                 else
@@ -90,7 +89,7 @@ namespace CourseEnrollmentAPI.Controllers
         {
             try
             {
-                var result = await _enrollmentDetails.GetSpecificCourseDetails(_dBContext,courseId);
+                var result = await _enrollmentDetails.GetSpecificCourseDetails(courseId);
                 if (result != null)
                     return StatusCode(StatusCodes.Status200OK, result);
                 else

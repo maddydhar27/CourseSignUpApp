@@ -11,13 +11,13 @@ namespace CourseEnrollmentLib
         /// Get summary of all available courses 
         /// </summary>
         /// <returns></returns>
-        Task<List<O>> GetCourseOverallSummary(CourseEnrollmentDBContext dBContext);
+        Task<List<O>> GetCourseOverallSummary();
 
         /// <summary>
         /// Get details of course for given courseId
         /// </summary>
         /// <param name="courseId"></param>
         /// <returns></returns>
-        Task<S> GetSpecificCourseDetails(CourseEnrollmentDBContext dBContext,int courseId);
+        Task<S> GetSpecificCourseDetails(int courseId);
     }
 }
